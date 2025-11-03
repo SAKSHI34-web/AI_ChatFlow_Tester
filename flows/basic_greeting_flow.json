@@ -1,0 +1,18 @@
+{
+  "name": "basic_greeting_flow",
+  "description": "Simple greeting and name retrieval flow.",
+  "steps": [
+    {
+      "user": "Hi",
+      "expected_bot": "Hello! How can I help you today?"
+    },
+    {
+      "user": "What is your name",
+      "expected_bot": "I am TestBot, your testing assistant."
+    },
+    {
+      "user": "Tell me a joke",
+      "expected_bot": "Sorry, I didn't understand that. Could you rephrase?"
+    }
+  ]
+}

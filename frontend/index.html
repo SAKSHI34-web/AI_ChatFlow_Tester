@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>AI ChatFlow Tester - Manual Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    #chat { border: 1px solid #ddd; padding: 1rem; height: 300px; overflow:auto; }
+    .user { color: #0a6; }
+    .bot { color: #06a; }
+    #controls { margin-top: 1rem; }
+    button { padding: .5rem 1rem; }
+  </style>
+</head>
+<body>
+  <h1>AI ChatFlow Tester — Manual Dashboard</h1>
+  <div id="chat"></div>
+  <div id="controls">
+    <input id="msg" placeholder="Type message..." size="40"/>
+    <button id="send">Send</button>
+    <button id="runFlow">Run Sample Flow</button>
+  </div>
+
+<script>
+const apiUrl = "http://localhost:5000/chat";
+function append(role, text){
+  const d = document.createElement("div");
+  d.className = role;
+  d.textContent = (role==='user'?'You: ':'Bot: ') + text;
+  document.getElementById("chat").appendChild(d);
+  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+}
+document.getElementById("send").onclick = async () => {
+  const msg = document.getElementById("msg").value;
+  if(!msg) return;
+  append('user', msg);
+  const res = await fetch(apiUrl, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({message: msg})});
+  const j = await res.json();
+  append('bot', j.response || JSON.stringify(j));
+  document.getElementById("msg").value = "";
+};
+
+document.getElementById("runFlow").onclick = async () => {
+  // sample flow
+  const flow = ["Hi", "What is your name", "Tell me a joke"];
+  for(const q of flow){
+    append('user', q);
+    const res = await fetch(apiUrl, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({message: q})});
+    const j = await res.json();
+    append('bot', j.response || JSON.stringify(j));
+    await new Promise(r=>setTimeout(r,600));
+  }
+};
+</script>
+</body>
+</html>
