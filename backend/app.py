@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
-# Simple in-memory "model" responses (mock)
 MODEL = {
     "hi": "Hello! How can I help you today?",
     "what is your name": "I am TestBot, your testing assistant.",
